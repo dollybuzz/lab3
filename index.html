@@ -22,11 +22,14 @@
             <option value="ca">California</option>
             <option value="ny">New York</option>
             <option value="tx">Texas</option>
+            <option value="hi">Hawaii</option>
+            <option value="or">Oregon</option>
         </select><br/>
         
         Select a County: <select id="county"></select><br><br>
         
         Desired Username: <input type="text" id="username" name="username"><br>
+            <span id="usernameError"></span><br>
         Password: <input type="password" id="password" name="password"><br>
         Password Again: <input type="password" id="passwordAgain"><br>
         
@@ -49,6 +52,46 @@
                     }
                 });//ajax
             });//zip
+            
+            $("#state").on("change", function() {
+                //alert($("#state").val());
+                $.ajax({
+                    method: "GET",
+                    url: "https://cst336.herokuapp.com/projects/api/countyListAPI.php",
+                    dataType: "json",
+                    data: { "state": $("#state").val() },
+                    success: function(result, status) {
+                        //alert(result[0].county);
+                        $("#county").html("<option> Select One </option>");
+                        
+                        result.forEach(function(i)
+                        {
+                            $("#county").append("<option>" + i.county + "</option>");
+                        })
+                    } 
+                });//ajax
+            });//state
+            
+            $("#username").on("change", function() {
+                //alert($("#username").val());
+                $.ajax({
+                    method: "GET",
+                    url: "https://cst336.herokuapp.com/projects/api/usernamesAPI.php",
+                    dataType: "json",
+                    data: { "username": $("#username").val() },
+                    success: function(result, status) {
+                       
+                       if(result.available) {
+                           $("#usernameError").html("Username is available!");
+                           $("#usernameError").css("color", "green");
+                       }
+                       else {
+                           $("#usernameError").html("Username is unavailable!");
+                           $("#usernameError").css("color", "red");
+                       }
+                    } 
+                });//ajax
+            });//username
             
         </script>
         
