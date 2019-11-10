@@ -5,7 +5,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
-        <form method="get" action="welcome.html">
+        <form id="signupForm" method="get" action="welcome.html">
         First Name: <input type="text" name="fName"><br>
         Last Name: <input type="text" name="lName"><br>
         Gender: <input type="radio" name="gender" value="m"> Male
@@ -32,12 +32,34 @@
             <span id="usernameError"></span><br>
         Password: <input type="password" id="password" name="password"><br>
         Password Again: <input type="password" id="passwordAgain"><br>
+            <span id="passwordAgainError"></span><br><br>
         
         <input type="submit" value="Sign up!">
         </form>
         
-        <!--Javascript Events using AJAX and JQuery-->
+        <!--Javascript Event Handlers using AJAX and JQuery-->
         <script>
+            var usernameAvailable = false;
+            
+            function isFormValid() {
+                isValid = true;
+                if(!usernameAvailable){
+                    isValid = false;
+                }
+                
+                if($("#username").val().length == 0){
+                    isValid = false;
+                    $("#usernameError").html("Username is required!");
+                    $("#usernameError").css("color", "black");
+                }
+                if($("#password").val() != $("#passwordAgain").val()){
+                    $("#passwordAgainError").html("Password Mismatch!");
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+        
             //Displaying City from API after typing a zip code
             $("#zip").on("change", function() {
                 //alert($("#zip").val());
@@ -86,14 +108,24 @@
                        if(result.available) {
                            $("#usernameError").html("Username is available!");
                            $("#usernameError").css("color", "green");
+                           usernameAvailable = true;
                        }
                        else {
                            $("#usernameError").html("Username is unavailable!");
                            $("#usernameError").css("color", "red");
+                           usernameAvailable = false;
                        }
                     } 
                 });//ajax
             });//username
+            
+            $("#signupForm").on("submit", function(e) {
+                //alert("Submitting form...");
+                if(!isFormValid())
+                {
+                    e.preventDefault(); //e refers to the primary action of the form which is form submission
+                }
+            });
         </script>
         
     </body>
