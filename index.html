@@ -5,7 +5,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
-        
+        <form method="get" action="welcome.html">
         First Name: <input type="text" name="fName"><br>
         Last Name: <input type="text" name="lName"><br>
         Gender: <input type="radio" name="gender" value="m"> Male
@@ -34,7 +34,9 @@
         Password Again: <input type="password" id="passwordAgain"><br>
         
         <input type="submit" value="Sign up!">
+        </form>
         
+        <!--Javascript Events using AJAX and JQuery-->
         <script>
             //Displaying City from API after typing a zip code
             $("#zip").on("change", function() {
@@ -92,7 +94,6 @@
                     } 
                 });//ajax
             });//username
-            
         </script>
         
     </body>
