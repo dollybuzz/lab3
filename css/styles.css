@@ -1,0 +1,103 @@
+body {
+    background-color: slateblue;
+    font-size: 1.2em;
+    font-family: 'Pacifico', cursive;
+    color: white;
+}
+
+header {
+    text-align: center;
+    color: orange;
+}
+
+input {
+    font-size: .8em;
+    font-family: 'Pacifico', cursive;
+}
+
+input:hover {
+    background-color: lavender;
+    font-size: .8em;
+}
+
+select {
+    font-family: 'Pacifico', cursive;
+    font-size: .8em;
+}
+
+#submit {
+    font-family: 'Pacifico', cursive;
+    font-size: 1em;
+    color: slateblue;
+    font-weight: bold;
+    background-color: white;
+}
+
+#submit:hover {
+    color: white;
+    font-weight: bold;
+    background-color: powderblue;
+}
+
+#passwordAgainError {
+    color: red;
+}
+
+#zipCodeError {
+    color: red;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 2em;
+    color: yellowgreen;
+}
+
+h1:hover {
+    color: red;
+    font-style: italic;
+}
+
+h3 {
+    font-size: 1.5em;
+    color: yellow;
+}
+
+h3:hover {
+    font-size: 1.5em;
+    color: powderblue;
+}
+
+h4 {
+    font-size: 1.5em;
+    color: orange;
+}
+
+h4:hover {
+    color: yellow;
+    font-style: italic;
+}
+
+footer {
+    text-align: center;
+}
+
+h5 {
+    font-size: .6em;
+    color: orange;
+}
+
+h5:hover {
+    color: yellow;
+    font-style: italic;
+}
+
+h6 {
+    font-size: .5em;
+    color: yellowgreen;
+}
+
+h6:hover {
+    color: red;
+    font-style: italic;
+}
