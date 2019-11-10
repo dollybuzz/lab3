@@ -12,19 +12,12 @@
                 <input type="radio" name="gender" value="f"> Female<br><br>
                 
         Zip Code: <input type="text" name="zip" id="zip"><br>
+            <span id="zipCodeError"></span><br>
         City: <span id="city"></span><br>
         Latitude: <span id="latitude"></span><br>
         Longitude: <span id="longitude"></span><br><br>
         
-        State: 
-        <select id="state" name="state">
-            <option value="">Select One</option>
-            <option value="ca">California</option>
-            <option value="ny">New York</option>
-            <option value="tx">Texas</option>
-            <option value="hi">Hawaii</option>
-            <option value="or">Oregon</option>
-        </select><br/>
+        State: <select id="state" name="state"></select><br>
         
         Select a County: <select id="county"></select><br><br>
         
@@ -37,12 +30,15 @@
         <input type="submit" value="Sign up!">
         </form>
         
+        
         <!--Javascript Event Handlers using AJAX and JQuery-->
         <script>
             var usernameAvailable = false;
+            var states = document.getElementById("state");
             
             function isFormValid() {
                 isValid = true;
+                
                 if(!usernameAvailable){
                     isValid = false;
                 }
@@ -55,6 +51,12 @@
                 if($("#password").val() != $("#passwordAgain").val()){
                     $("#passwordAgainError").html("Password Mismatch!");
                     isValid = false;
+                }
+                
+                if($("#password").val().length < 6)
+                {
+                    isValid = false;
+                    $("#passwordAgainError").html("Password must be at least 6 characters.");
                 }
                 
                 return isValid;
@@ -70,12 +72,39 @@
                     data: { "zip": $("#zip").val() },
                     success: function(result, status) {
                         //alert(result.city);
-                        $("#city").html(result.city);
-                        $("#latitude").html(result.latitude);
-                        $("#longitude").html(result.longitude);
+                        
+                        if(result == false)
+                        {
+                            $("#zipCodeError").html("Zip code not found!");
+                            $("#city").html("");
+                            $("#latitude").html("");
+                            $("#longitude").html("");
+                        }
+                        else
+                        {
+                            $("#zipCodeError").html("");
+                            $("#city").html(result.city);
+                            $("#latitude").html(result.latitude);
+                            $("#longitude").html(result.longitude);
+                        }
                     }
                 });//ajax
             });//zip
+        
+            $("#state").on("click", function() { //must be click since it needs change depends on a preceding element's change to function 
+                $.ajax({
+                    method: "GET",
+                    url: "https://cst336.herokuapp.com/projects/api/state_abbrAPI.php",
+                    dataType: "json",
+                    data: { "state": $("#state").val() },
+                    success: function(result, status) {
+                    $("#state").html("<option value=''>Select One</option>");
+                      result.forEach(function(i) {
+                          $("#state").append("<option value=" + i.usps + ">" + i.state + "</option>");
+                      });
+                    }
+                });//ajax
+            });//populate all US states
             
             $("#state").on("change", function() {
                 //alert($("#state").val());
@@ -94,7 +123,7 @@
                         })
                     } 
                 });//ajax
-            });//state
+            });//state county
             
             $("#username").on("change", function() {
                 //alert($("#username").val());
@@ -125,7 +154,8 @@
                 {
                     e.preventDefault(); //e refers to the primary action of the form which is form submission
                 }
-            });
+            });//submit if valid
+            
         </script>
         
     </body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Sign Up Page </title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        State: <select id="state" name="state">
+        </select><br>
+        
+        Select a County: <select id="county"></select><br><br>
+    </body>
+</html>
+
+<script>
+var states = document.getElementById("state");
+    
+$("#state").on("click", function() {
+                $.ajax({
+                    method: "GET",
+                    url: "https://cst336.herokuapp.com/projects/api/state_abbrAPI.php",
+                    dataType: "json",
+                    data: { "state": $("#state").val() },
+                    success: function(result, status) {
+                    $("#state").html("<option value=''>Select One</option>");
+                      result.forEach(function(i) {
+                          $("#state").append("<option value=" + i.usps + ">" + i.state + "</option>");
+                      });
+                    }
+                });//ajax
+            });//populate all US states
+            
+            
+$("#state").on("change", function() {
+                //alert($("#state").val());
+                $.ajax({
+                    method: "GET",
+                    url: "https://cst336.herokuapp.com/projects/api/countyListAPI.php",
+                    dataType: "json",
+                    data: { "state": $("#state").val() },
+                    success: function(result, status) {
+                        //alert(result[0].county);
+                        $("#county").html("<option> Select One </option>");
+                        
+                        result.forEach(function(i)
+                        {
+                            $("#county").append("<option>" + i.county + "</option>");
+                        })
+                    } 
+                });//ajax
+            });//state county            
+</script>
